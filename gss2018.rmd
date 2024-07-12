@@ -1,6 +1,6 @@
 ---
 title: "General Social Survey"
-author: "Your Name"
+author: "Juliet Clark"
 date: "Year 2020"
 output: 
   html_document:
@@ -32,6 +32,11 @@ First question - Is opinion on the death penalty (CAPPUN) independent of gun own
 <!--Decide on your methods:  use "variable analysis" or other appropriate descriptors.  Make sure to choose at least one graphical method and at least one numerical method.!-->
 
 ##Results
+OWNGUN is categorical, CAPPUN is also categorical.
+
+We want CAPPUN ~ OWNGUN
+The helper file we use is Cat ~ Cat
+
 
 <!--Divide this section into two sub-sections:  One for your descriptive  results and one for your inferential results.!-->
 
@@ -41,13 +46,40 @@ First question - Is opinion on the death penalty (CAPPUN) independent of gun own
 
 <!--Graphical results here.  Make sure to show your code.  Provide appropriate labels for axes, giving units if possible, and provide a good title for the graph, too.  Use the graphical results to describe the patterns if any that exist in the data as focused toward the research question!-->
 
+```{r}
+barchartGC(~CAPPUN + OWNGUN,data=GSSdata)
+barchartGC(~CAPPUN + OWNGUN,data=GSSdata, type="percent")
+```
+
+
+This graph shows that among people who own a gun, are more likely to favor capital punishment.
+
 #### Numerical Descriptive Results
 
 <!--Numerical results go here. Use the numerical results to describe the patterns if any that exist in the data as focused toward the research question!-->
 
+```{r}
+table1 <- xtabs(~CAPPUN + OWNGUN, data=GSSdata)
+rowPerc(table1)
+colPerc(table1)
+```
+
+Numerical study shows that 75% of gun owners favor CAPPUN.
+
 ### Inferential Results
 
 <!--State hypothesis clearly.  Make sure your discussion of the inferential test covers all the aspects that the test output produces, such as test statistic, p-value etc.  Make a decision about the null hypothesis, explain the assumptions on which the selected test/procedure was based, and why the chosen procedure satisfys the assumptions and is appropriate to answer the research question!-->
+
+```{r}
+chisq.test(table1)
+chisqtestGC(table1)
+fisher.test(table1)
+```
+The Chi-square test p-value is 0.0202, Hence we reject the null hypothesis and conclude that gun ownership and captial punishment are not independent. 
+
+The fisherexact test has a p-value of 0.01651, hence we reject the null hypothesis, as the chi-squared
+
+
 
 #  Question 2
 
@@ -68,6 +100,13 @@ Is there a difference in years of education (EDUC) between the those who did or 
 #### Graphical Descriptive Results
 
 <!--Graphical results here.  Make sure to show your code.  Provide appropriate labels for axes, giving units if possible, and provide a good title for the graph, too.  Use the graphical results to describe the patterns if any that exist in the data as focused toward the research question!-->
+
+
+```{r}
+barchartGC(~class + Sex,data=ucdavis1)
+barchartGC(~class + Sex,data=ucdavis1, type="percent")
+
+```
 
 #### Numerical Descriptive Results
 
@@ -98,7 +137,9 @@ Determine if a persons performance on the wordsum test (WORDSUM) is independent 
 <!--Graphical results here.  Make sure to show your code.  Provide appropriate labels for axes, giving units if possible, and provide a good title for the graph, too.  Use the graphical results to describe the patterns if any that exist in the data as focused toward the research question!-->
 
 #### Numerical Descriptive Results
-
+```{r}
+favstats (EDUC~VOTE12,data=GSSdata)
+```
 <!--Numerical results go here. Use the numerical results to describe the patterns if any that exist in the data as focused toward the research question!-->
 
 ### Inferential Results
@@ -110,3 +151,4 @@ Determine if a persons performance on the wordsum test (WORDSUM) is independent 
 
 <!--Discussion and conclusion here.  If you found a relationship be sure to consider whether the relationship occurs because one of the variavbles causes the other, or whether they perhasps are related for some other reason.  Watch the chapter 6 videos from the GeorgeTown videos collection.!-->
 
+#### Question 1: is gun ownership indepenedent of opinion on capital punishsment. The summary results and the inferential results show that the 
