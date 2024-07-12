@@ -134,10 +134,7 @@ The more education you have, the more likely you are to VOTE12.
 ```{r}
 t.test(EDUC~VOTE12, data=GSSdata)
 ```
-```{r}
-chisq.test(table1)
-chisqtestGC(table1)
-```
+This T-test shows that this means those who voted had a better education. Therefore we reject the null hypothesis
 
 #  Question 3
 
