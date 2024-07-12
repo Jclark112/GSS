@@ -87,9 +87,18 @@ The fisherexact test has a p-value of 0.01651, hence we reject the null hypothes
 
 Is there a difference in years of education (EDUC) between the those who did or did not vote in 2012 (VOTE12)?
 
+$H_0$:There is a dfference in years of educations between the those who did or did not vote in 2012.
+
+$H_A$: There is no difference between education and if someone voted. 
+
 ## Methods
 
 <!--Decide on your methods:  use "variable analysis" or other appropriate descriptors.  Make sure to choose at least one graphical method and at least one numerical method.!-->
+
+EDUC is categorical, VOTE12 is also categorical.
+
+We want EDUC ~ VOTE12
+The helper file we use is CAT~CAT
 
 ##Results
 
@@ -101,20 +110,34 @@ Is there a difference in years of education (EDUC) between the those who did or 
 
 <!--Graphical results here.  Make sure to show your code.  Provide appropriate labels for axes, giving units if possible, and provide a good title for the graph, too.  Use the graphical results to describe the patterns if any that exist in the data as focused toward the research question!-->
 
-
 ```{r}
-barchartGC(~class + Sex,data=ucdavis1)
-barchartGC(~class + Sex,data=ucdavis1, type="percent")
+barchartGC(~EDUC + VOTE12,data=GSSdata)
+barchartGC(~EDUC + VOTE12,data=GSSdata, type="percent")
 
 ```
+This shows that there was an increase of people who voted in 2012 tended to have higher education.
 
 #### Numerical Descriptive Results
 
 <!--Numerical results go here. Use the numerical results to describe the patterns if any that exist in the data as focused toward the research question!-->
+```{r}
+table1 <- xtabs(~EDUC + VOTE12, data=GSSdata)
+rowPerc(table1)
+colPerc(table1)
+```
+The more education you have, the more likely you are to VOTE12.
 
 ### Inferential Results
 
 <!--State hypothesis clearly.  Make sure your discussion of the inferential test covers all the aspects that the test output produces, such as test statistic, p-value etc.  Make a decision about the null hypothesis, explain the assumptions on which the selected test/procedure was based, and why the chosen procedure satisfys the assumptions and is appropriate to answer the research question!-->
+
+```{r}
+t.test(EDUC~VOTE12, data=GSSdata)
+```
+```{r}
+chisq.test(table1)
+chisqtestGC(table1)
+```
 
 #  Question 3
 
@@ -122,6 +145,10 @@ barchartGC(~class + Sex,data=ucdavis1, type="percent")
 
 Determine if a persons performance on the wordsum test (WORDSUM) is independent of their level of schooling (DEGREE).
 
+$H_0$: Performance on the wordsum test is independent of their level of schooling.
+
+$H_A$: Performance on the wordsum test is dependent of their level of schooling.
+
 ## Methods
 
 <!--Decide on your methods:  use "variable analysis" or other appropriate descriptors.  Make sure to choose at least one graphical method and at least one numerical method.!-->
@@ -136,19 +163,34 @@ Determine if a persons performance on the wordsum test (WORDSUM) is independent 
 
 <!--Graphical results here.  Make sure to show your code.  Provide appropriate labels for axes, giving units if possible, and provide a good title for the graph, too.  Use the graphical results to describe the patterns if any that exist in the data as focused toward the research question!-->
 
-#### Numerical Descriptive Results
 ```{r}
-favstats (EDUC~VOTE12,data=GSSdata)
+barchartGC (~WORDSUM + DEGREE, data=GSSdata)
+barchartGC (~WORDSUM + DEGREE,data=GSSdata, type="percent")
 ```
+
+#### Numerical Descriptive Results
 <!--Numerical results go here. Use the numerical results to describe the patterns if any that exist in the data as focused toward the research question!-->
+ 
+```{r}
+table1 <- xtabs (~WORDSUM + DEGREE, data=GSSdata)
+rowPerc(table1)
+colPerc(table1)
+```
+
+This Numerical results show that in 2012 those who did vote have almost 16 years in education
 
 ### Inferential Results
 
 <!--State hypothesis clearly.  Make sure your discussion of the inferential test covers all the aspects that the test output produces, such as test statistic, p-value etc.  Make a decision about the null hypothesis, explain the assumptions on which the selected test/procedure was based, and why the chosen procedure satisfys the assumptions and is appropriate to answer the research question!-->
 
-
+```{r}
+chisq.test(table1)
+chisqtestGC(table1)
+```
+    
 # Discussion and Conclusion
 
 <!--Discussion and conclusion here.  If you found a relationship be sure to consider whether the relationship occurs because one of the variavbles causes the other, or whether they perhasps are related for some other reason.  Watch the chapter 6 videos from the GeorgeTown videos collection.!-->
 
-#### Question 1: is gun ownership indepenedent of opinion on capital punishsment. The summary results and the inferential results show that the 
+#### Question 1: is gun ownership indepenedent of opinion on capital punishment. 
+The summary results and the inferential results show that the independent. 
