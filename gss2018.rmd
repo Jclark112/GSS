@@ -1,7 +1,7 @@
 ---
 title: "General Social Survey"
 author: "Juliet Clark"
-date: "Year 2020"
+date: "6/18/24"
 output: 
   html_document:
     number_sections: true
@@ -24,14 +24,19 @@ source("GrabData.R")
 <!--In this section you explain what you are trying to show.  Where did the data come from?  What is the research or other question you are trying to answer?!-->
 
 The data in the dataframe GSSdata is from the 2018 General Social Survey. The first blocks of R-code has selected down a subset of the data to just 16 variables. It has further removed unwanted factor levels in much of the data. Examine the code in the GrabData.R file to see what it is doing. Some of the variables are categorical and others are numerical. Be sure to do a variable analysis before tackling each question.  
+
 First question - Is opinion on the death penalty (CAPPUN) independent of gun ownership (OWNGUN)?
 
+$H_0$: The opinion on capital punishment is independent of gun ownership.
+
+$H_A$: They are dependent.
 
 ## Methods
 
 <!--Decide on your methods:  use "variable analysis" or other appropriate descriptors.  Make sure to choose at least one graphical method and at least one numerical method.!-->
 
 ##Results
+
 OWNGUN is categorical, CAPPUN is also categorical.
 
 We want CAPPUN ~ OWNGUN
@@ -81,9 +86,10 @@ fisher.test(table1)
 ```
 The Chi-square test p-value is 0.0202, Hence we reject the null hypothesis and conclude that gun ownership and captial punishment are not independent. 
 
-The fisherexact test has a p-value of 0.01651, hence we reject the null hypothesis, as the chi-squared
+The fisherexact test has a p-value of 0.01651, hence we reject the null hypothesis, as the chi-squared test. The odds ratio says that gun owners are 2.3 times more likely to be in favor of capital punishment as opposed to those who dont own a gun.
 
-As we can see, the P-value is 0.00000025 which is smaller than 0.05 therefore we reject the null hypothesis
+As we can see, the P-value is 0.00000025 which is smaller than 0.05 therefore we reject the null hypothesis.
+
 #  Question 2
 
 <!--In this section you explain what you are trying to show.  Where did the data come from?  What is the research or other question you are trying to answer?!-->
@@ -141,6 +147,10 @@ This T-test shows that this means those who voted had a better education. Theref
 
 The P-value 0.000001248 which is less than 0.5, therefore we reject the null hypothesis.
 
+$H_0$: The score of a persons wordsum test is independent on their level of education. 
+
+$H_A$: They are dependent.
+
 #  Question 3
 
 <!--In this section you explain what you are trying to show.  Where did the data come from?  What is the research or other question you are trying to answer?!-->
@@ -164,10 +174,8 @@ $H_A$: Performance on the wordsum test is dependent of their level of schooling.
 #### Graphical Descriptive Results
 
 <!--Graphical results here.  Make sure to show your code.  Provide appropriate labels for axes, giving units if possible, and provide a good title for the graph, too.  Use the graphical results to describe the patterns if any that exist in the data as focused toward the research question!-->
-
 ```{r}
-barchartGC (~WORDSUM + DEGREE, data=GSSdata)
-barchartGC (~WORDSUM + DEGREE,data=GSSdata, type="percent")
+boxplot(WORDSUM~DEGREE,data=GSSdata)
 ```
 
 This charts show that level of schooling has an affect on the WORDSUM test percentage results. 
@@ -176,9 +184,7 @@ This charts show that level of schooling has an affect on the WORDSUM test perce
 <!--Numerical results go here. Use the numerical results to describe the patterns if any that exist in the data as focused toward the research question!-->
  
 ```{r}
-table1 <- xtabs (~WORDSUM + DEGREE, data=GSSdata)
-rowPerc(table1)
-colPerc(table1)
+favstats(WORDSUM~DEGREE, data=GSSdata)
 ```
 
 This Numerical results show that in 2012 those who did vote have almost 16 years in education
@@ -196,6 +202,8 @@ As we can see the P-value is 0.00000025 which is smaller than 0.05. Therefore, w
 plot(TukeyHSD(anova))
 ```
 
+There is no difference between high school and junior college. There is a difference between high school, bachelors and graduates. There is no difference between high school graduate and junior college. 
+
 ```{r}
 chisq.test(table1)
 chisqtestGC(table1)
@@ -206,4 +214,5 @@ chisqtestGC(table1)
 <!--Discussion and conclusion here.  If you found a relationship be sure to consider whether the relationship occurs because one of the variavbles causes the other, or whether they perhasps are related for some other reason.  Watch the chapter 6 videos from the GeorgeTown videos collection.!-->
 
 #### Question 1: is gun ownership indepenedent of opinion on capital punishment. 
-The summary results and the inferential results show that the independent. 
+
+The summary results and the inferential results show that they are not independent. 
